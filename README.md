@@ -120,5 +120,14 @@ python -m pytest -q
 - `test_create_movement_invalid_type_or_product` — valida tipos inválidos e produto inexistente.
 - `test_list_movements` — valida `GET /movements` retorna movimentos.
 
-> Observação: os testes do frontend não estão implementados neste repositório; se quiser, posso adicioná-los mais tarde (Jest + React Testing Library).
+---
+
+## 🔁 Integração Contínua (GitHub Actions)
+
+Criei um workflow para CI em `.github/workflows/ci.yml` que:
+
+- Executa os testes do backend (`pytest`) em Python 3.11.
+- Faz build do frontend (Node 18) para validar que o frontend compila sem erros.
+
+A pipeline é disparada em `push` e `pull_request` nas branches `main`/`master`. Se quiser, posso ajustar a workflow para rodar checks adicionais (linters, coverage, etc.).
 
