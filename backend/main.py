@@ -34,6 +34,11 @@ app.include_router(comandas.router, prefix="/api/comandas", tags=["Comandas"])
 app.include_router(compras.router, prefix="/api/compras", tags=["Compras"])
 app.include_router(pagamentos.router, prefix="/api/pagamentos", tags=["Pagamentos"])
 
+@app.get("/health")
+async def health_check():
+    """Endpoint de verificação de saúde da API"""
+    return {"status": "healthy"}
+
 @app.on_event("startup")
 async def startup_event():
     """Inicializa a conexão com o banco ao iniciar a aplicação"""
