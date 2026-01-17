@@ -1,125 +1,133 @@
+# 🧾 Gerenciador de Estoque — FastAPI + React
 
-# Arena Pinheiro - Backend
-
-Sistema de gerenciamento para Arena Pinheiro, desenvolvido em Python com FastAPI e PostgreSQL. O sistema gerencia campos, reservas, comandas, produtos, estoque, compras, pagamentos e usuários.
-Todas as tabelas possuem IDs automáticos (SERIAL) como chave primária. Os campos string são validados para evitar SQL injection.
+Pequeno sistema de gestão de estoque com backend em **FastAPI + SQLite** e frontend em **React + Vite**.
 
 ---
 
-## Índice
-- Tecnologias Utilizadas
-- Pré-requisitos
-- Instalação
-- Configuração
-- Como Executar
-- Estrutura do Projeto
-- Documentação da API
-- Funcionalidades
-- Solução de Problemas
+## 📚 Sumário
+- [Pré-requisitos](#-pré-requisitos)
+- [Quick start](#-quick-start)
+- [Backend (FastAPI)](#-backend-fastapi)
+- [Frontend (Vite + React)](#-frontend-vite--react)
+- [Observações importantes](#-observações-importantes)
+- [Scripts úteis](#-scripts-úteis)
+- [Próximos passos](#-próximos-passos)
 
 ---
 
+## ⚙️ Pré-requisitos
+- Python 3.10+ (recomendado 3.10 ou 3.11)
+- pip (geralmente instalado com Python)
+- Node.js (LTS recomendado, >=16)
+- npm (vem com Node.js)
 
+Verifique rapidamente com os scripts:
+- Windows (PowerShell): `scripts\check_prereqs.ps1` (se o PowerShell bloquear a execução, use `powershell -ExecutionPolicy Bypass -File .\scripts\check_prereqs.ps1`)
+- macOS / Linux: `scripts/check_prereqs.sh` (torne executável: `chmod +x scripts/check_prereqs.sh`)
 
+---
 
+## 🚀 Quick start
+Siga estes passos básicos: execute a API e, em seguida, o frontend.
 
-# ⚽ Arena Pinheiro - Backend
+### Windows (PowerShell)
+```powershell
+# Backend
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python run.py
 
-Sistema web para gerenciar campos, reservas, comandas, produtos, estoque, compras, pagamentos e usuários da Arena Pinheiro.
+# Em outro terminal, Frontend
+cd frontend
+npm install
+npm run dev
+```
 
-## 📝 Descrição
-API desenvolvida em Python com FastAPI e PostgreSQL. Permite o cadastro, consulta, atualização e remoção de todas as entidades do sistema. IDs são automáticos, senhas são salvas com hash seguro e campos string são validados para evitar SQL injection.
-
-## ✨ Funcionalidades
-- CRUD completo para campos, reservas, comandas, produtos, estoque, compras, pagamentos e usuários
-- IDs automáticos (não precisa informar ao cadastrar)
-- Senhas de usuários com hash seguro (bcrypt)
-- Validação de campos string para evitar SQL injection
-- Documentação automática (Swagger/OpenAPI)
-- CORS configurado
-
-
-## ⚙️ Pré-requisitos e Dependências
-
-<img src="https://img.shields.io/badge/Python-3.8%2B-blue?logo=python" />
-<img src="https://img.shields.io/badge/PostgreSQL-12%2B-blue?logo=postgresql" />
-
-- Python 3.8+
-- PostgreSQL 12+
-- FastAPI 🏎️
-- Uvicorn 🚦
-- psycopg2-binary 🐘
-- Pydantic 🛡️
-- bcrypt 🔒
-- python-dotenv 🌱
-
-Instale todas as dependências com:
+### macOS / Linux (Terminal)
 ```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
+# Backend
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python run.py
+
+# Em outro terminal, Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+Abra o frontend em: `http://localhost:5173` (por padrão) e a API em `http://localhost:8000`.
+
+---
+
+## 🖥️ Backend (FastAPI)
+- Iniciar (desenvolvimento): `python run.py` — o script mostra os links da app e da documentação (Swagger: `/docs`).
+- Banco padrão: `backend/database.db` (SQLite).
+- Migração do campo `min_quantity`: o backend tenta adicionar automaticamente essa coluna em bases antigas; em ambiente de desenvolvimento, apagar `backend/database.db` recria o schema caso necessário.
+- Checagem rápida de dependências Python: `python check_prereqs.py` (dentro de `backend/`).
+
+---
+
+## 🌐 Frontend (Vite + React)
+- Inicie em `frontend/` com `npm install` e `npm run dev`.
+- Configure a URL da API criando `frontend/.env` a partir de `frontend/.env.example` (variável `VITE_API_URL`).
+
+---
+
+## ⚠️ Observações importantes
+- CORS já está configurado para o frontend `http://localhost:5173`.
+- Se algo não funcionar (ex.: migrations), tente apagar `backend/database.db` e reiniciar a API (apenas em desenvolvimento).
+
+---
+
+## 🛠️ Scripts úteis
+- `scripts/check_prereqs.ps1` — checa Python / Node / npm (Windows PowerShell).
+- `scripts/check_prereqs.sh` — checa Python / Node / npm (macOS / Linux).
+- `backend/check_prereqs.py` — checa se os pacotes Python essenciais estão instalados.
+- `frontend/.env.example` — exemplo de configuração para o frontend.
+
+---
+
+## ✅ Próximos passos (opções)
+- Adicionar Docker + docker-compose (execução em qualquer OS) 🐳
+- Adicionar testes automatizados (pytest) ✅
+- Configurar CI/CD (GitHub Actions) 🔁
+
+---
+
+## 🧪 Testes
+
+### Backend
+- Implementado com `pytest` + `TestClient` (FastAPI). Rode em `backend/` com:
+
+```powershell
 pip install -r backend/requirements.txt
-pip install python-dotenv
+python -m pytest -q
 ```
 
-## 🗄️ Configuração do Banco de Dados
-1. Crie o banco:
-   ```sql
-   CREATE DATABASE arena_pinheiro;
-   ```
-2. Importe as tabelas:
-   ```bash
-   psql -U postgres -d arena_pinheiro -f backend/Arena_Pinheiro.sql
-   ```
-
-## ⚙️ Configuração do Ambiente
-Crie um arquivo `.env` na raiz do projeto com:
-```env
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=arena_pinheiro
-DB_USER=postgres
-DB_PASSWORD=sua_senha
-API_HOST=0.0.0.0
-API_PORT=8000
-```
-
-
-## ▶️ Como Executar
-
-Execute o backend com:
-```bash
-python backend/run.py
-```
-A API estará disponível em http://localhost:8000
-
-## 📚 Documentação
-Acesse a documentação interativa em:
-- http://localhost:8000/docs
-
-## 📁 Estrutura do Projeto
-```
-Arena-Pinheiro/
-├── backend/
-│   ├── main.py
-│   ├── config.py
-│   ├── database.py
-│   ├── run.py
-│   ├── Arena_Pinheiro.sql
-│   ├── requirements.txt
-│   ├── routers/
-│   └── schemas/
-├── .env
-├── README.md
-```
-
-## 💡 Dicas e Observações
-- Não informe IDs ao cadastrar entidades (o banco gera automaticamente)
-- Se der erro de conexão, confira o `.env` e se o PostgreSQL está rodando
-- Campos nome e senha de usuário aceitam até 255 caracteres
-- Para dúvidas, acesse a documentação em `/docs`
+**Testes implementados**:
+- `test_create_and_get_product` — cria e recupera produto; valida campos e `GET /products/{id}`.
+- `test_update_and_delete_product` — atualiza produto com `PUT` e verifica `DELETE` remove o registro.
+- `test_list_products` — valida `GET /products`.
+- `test_get_product_not_found` — checa 404 para produto inexistente.
+- `test_create_movement_entrada_increases_quantity` — movimento `entrada` aumenta quantidade.
+- `test_create_movement_saida_decreases_quantity` — movimento `saida` diminui quantidade.
+- `test_create_movement_cannot_remove_more_than_available` — garante erro ao retirar mais que disponível.
+- `test_create_movement_invalid_type_or_product` — valida tipos inválidos e produto inexistente.
+- `test_list_movements` — valida `GET /movements` retorna movimentos.
 
 ---
 
-Desenvolvido com FastAPI, PostgreSQL e Python 3.8+.
+## 🔁 Integração Contínua (GitHub Actions)
 
-│   ├── database.py
+Criei um workflow para CI em `.github/workflows/ci.yml` que:
+
+- Executa os testes do backend (`pytest`) em Python 3.11.
+- Faz build do frontend (Node 18) para validar que o frontend compila sem erros.
+
+A pipeline é disparada em `push` e `pull_request` nas branches `main`/`master`. Se quiser, posso ajustar a workflow para rodar checks adicionais (linters, coverage, etc.).
+
