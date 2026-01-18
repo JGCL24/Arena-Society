@@ -103,7 +103,7 @@ export default function SalesForm({ products, initialProduct, onSubmit, onCancel
       <div style={{marginTop:6, marginBottom:12}}>Total da venda: <strong>R$ {grandTotal.toFixed(2)}</strong></div>
 
       <div style={{display:'flex', gap:8}}>
-        <button type="submit">Registrar venda</button>
+        <button type="submit" className="btn-sale">Salvar</button>
         <button type="button" className="secondary" onClick={onCancel}>Cancelar</button>
       </div>
     </form>
